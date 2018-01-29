@@ -1,0 +1,28 @@
+version: "3"
+services:
+  bo:
+    image: laurent44/phoenix:1.6.0
+    container_name: capa-bo
+    command: "mix start"
+    ports: 
+      - "4000:4000"
+    volumes: 
+    - .:/workspace
+    depends_on: 
+      - db
+    links: 
+      - db:database
+  db: 
+    image: cockroachdb/cockroach:v1.1.3
+    container_name: capa-db
+    command: "start --insecure"
+    volumes:
+      - capa-data:/cockroach/cockroach-data
+    ports: 
+      - "26257:26257"
+      - "8080:8080"
+    environment: 
+      COCKROACH_INSECURE: "true"
+ 
+volumes: 
+  capa-data:

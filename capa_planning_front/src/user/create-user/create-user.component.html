@@ -1,0 +1,90 @@
+<section id="user-form">
+  <form>
+    <div class="row justify-content-lg-center no-marging">
+      <div class="col-sm-12 col-md-6 ">
+        <span class="section-title">
+          <mat-icon>account_box</mat-icon>Account information</span>
+      </div>
+      <div class="w-100"></div>
+      <div class=" col-sm-12 col-md-6">
+        <div class="row">
+          <div class="col-sm-12 col-md-6">
+            <mat-form-field [formGroup]="userFormGroup">
+              <input matInput name="firstname.value" type="test" placeholder="Firstname" [(ngModel)]="user.firstName" formControlName="firstNameFormControl" required>
+              <mat-error *ngIf="userFormGroup.get('firstNameFormControl').hasError('required')">
+                Firstname is
+                <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <mat-form-field [formGroup]="userFormGroup">
+              <input matInput name="user.lastname" type="text" placeholder="Lastname" [(ngModel)]="user.lastName" formControlName="lastNameFormControl" required>
+              <mat-error *ngIf="userFormGroup.get('firstNameFormControl').hasError('required')">
+                Lastname is
+                <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="w-100"></div>
+      <div class="col-sm-12 col-md-6">
+        <mat-form-field [formGroup]="userFormGroup">
+          <input matInput name="user.email" type="email" placeholder="Email" [(ngModel)]="user.email" formControlName="emailFormControl" required>
+          <mat-error *ngIf="userFormGroup.get('emailFormControl').hasError('email') && !userFormGroup.get('emailFormControl').hasError('required')">
+            Please enter a valid email address
+          </mat-error>
+          <mat-error *ngIf="userFormGroup.get('emailFormControl').hasError('required')">
+            Email is
+            <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="w-100"></div>
+      <div class="col-sm-12 col-md-6">
+        <div class="row">
+          <div class="col-sm-12 col-md-6">
+            <mat-form-field [formGroup]="userFormGroup">
+              <input matInput name="user.password" type="password" placeholder="Password" [(ngModel)]="user.password" [type]="hide ? 'password' : 'text'" formControlName="passwordFormControl" required>
+              <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+              <mat-error *ngIf="userFormGroup.get('passwordFormControl').hasError('pattern') && !userFormGroup.get('passwordFormControl').hasError('required')">
+                The password do not comply with the rules, you need at least 1 caracter and 1 digit and it has to be six caracters long.
+              </mat-error>
+              <mat-error *ngIf="userFormGroup.get('passwordFormControl').hasError('required')">
+                Password is
+                <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <mat-form-field [formGroup]="userFormGroup">
+              <input matInput name="confirmPassword" type="password" placeholder="Confirm password" [(ngModel)]="confirmPassword" [type]="hide ? 'password' : 'text'" formControlName="confirmPasswordFormControl" required>
+              <mat-error *ngIf="userFormGroup.get('confirmPasswordFormControl').hasError('required') ">
+                Password is
+                <strong>required</strong>
+              </mat-error>
+              <mat-error *ngIf="userFormGroup.get('confirmPasswordFormControl').hasError('matchOther') && !userFormGroup.get('confirmPasswordFormControl').hasError('required') && !userFormGroup.get('passwordFormControl').hasError('pattern') && !userFormGroup.get('passwordFormControl').hasError('required')">
+                The passwords do not match
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="w-100"></div>
+      <div class="col-sm-12 col-md-6 ">
+          <button color="primary" (click)="saveUser()" mat-raised-button>Save</button>
+        </div>
+      <!-- <div class="col-sm-12 col-md-6 ">
+        <span class="section-title">
+          <mat-icon>schedule</mat-icon>Work schedule</span>
+      </div>
+      <div class="w-100"></div>
+      <div class="col-sm-12 col-md-6">
+        <div *ngFor="let day of weekDays">
+          <mat-checkbox class="work-day-checkbox" name="workday" labelPosition="before" [(ngModel)]="day.checked">{{day.label}}</mat-checkbox>
+        </div>
+      </div> -->
+    </div>
+  </form>
+</section>

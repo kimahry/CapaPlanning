@@ -1,0 +1,19 @@
+<div class="mat-app-background container-fluid">
+  <app-toolbar [sidenav]="sidenav"></app-toolbar>
+
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #sidenav mode="over">
+      <mat-nav-list>
+        <mat-list-item><a [routerLink]="[ '/users' ]">Users</a></mat-list-item>
+        <mat-list-item><a [routerLink]="[ '/projects' ]">Projects</a></mat-list-item>
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+
+  </mat-sidenav-container>
+
+
+</div>
