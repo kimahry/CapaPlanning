@@ -3,19 +3,8 @@ import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { UserService } from '../user.service';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { JsonPipe } from '@angular/common';
-import gql from 'graphql-tag';
-import { Apollo } from 'apollo-angular';
-
-// We use the gql tag to parse our query string into a query document
-const CurrentUserForProfile = gql`
-  query {
-    listUser {
-      firstName
-      lastName
-      email
-    }
-  }
-`;
+import { QueryRef } from 'apollo-angular';
+import { ApolloQueryResult } from 'apollo-client';
 
 @Component({
   selector: 'app-list-user',
@@ -23,12 +12,11 @@ const CurrentUserForProfile = gql`
   styleUrls: ['./list-user.component.css']
 })
 export class ListUserComponent implements OnInit, AfterViewInit {
-  loading: boolean;
-  users: User[] = [];
+
   displayedColumns = ['firstName', 'lastName', 'email', 'actions'];
   dataSource: MatTableDataSource<User>;
 
-  constructor(private userService: UserService, private apollo: Apollo) { }
+  constructor(private userService: UserService) { }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -42,19 +30,8 @@ export class ListUserComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.dataSource = new MatTableDataSource<User>([]);
-    this.apollo.watchQuery<any>({
-      query: CurrentUserForProfile
-    })
-      .valueChanges
-      .subscribe(({ data }) => {
-        this.loading = data.loading;
-        this.dataSource.data = data.listUser;
-      });
+    this.userService.getUsers().subscribe(res => this.dataSource.data = res );
   }
-  // ngOnInit() {
-  //   this.userService.getUsers().subscribe(users => this.users = users);
-  //   this.dataSource = new MatTableDataSource<User>(this.users);
-  // }
 
   deleteUser(user: User) {
     const json: JsonPipe = new JsonPipe;
