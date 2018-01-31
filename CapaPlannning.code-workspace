@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "capa_planning_back"
+		},
+		{
+			"path": "capa_planning_front"
+		},
+		{
+			"path": "Pipeline"
+		}
+	],
+	"settings": {}
+}

@@ -9,6 +9,7 @@ import gql from 'graphql-tag';
 const CurrentUserForProfile = gql`
   query {
     listUser {
+      id
       firstName
       lastName
       email

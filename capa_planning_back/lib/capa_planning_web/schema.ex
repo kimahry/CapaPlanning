@@ -12,7 +12,14 @@ defmodule CapaPlanningWeb.Schema do
   import_types(CapaPlanning.Accounts.UserTypes)
   import_types(CapaPlanning.Accounts.UserFields)
 
+  @desc "Queries"
   query do
     import_fields(:list_user)
+  end
+
+  @desc "Mutations"
+  mutation do
+    import_fields(:delete_user)
+    import_fields(:create_user)
   end
 end
