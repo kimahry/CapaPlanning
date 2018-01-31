@@ -16,22 +16,29 @@ defmodule CapaPlanning.Accounts.UserResolver do
     end
   end
 
-  def create_user(_, args, _) do
-    case Accounts.create_user(args) do
+  def create_user(_, %{user: user}, _) do
+    case Accounts.create_user(user) do
       {:ok, user} ->
         {:ok, %{:user => user, :error => nil}}
 
       {:error, changeset} ->
-        IO.inspect(changeset)
-        {:ok, %{:user => nil, :error => errors_on(changeset)}}
+        errors = transform_errors(changeset)
+        {:ok, %{:user => nil, :errors => errors}}
     end
   end
 
-  def errors_on(changeset) do
-    Ecto.Changeset.traverse_errors(changeset, fn {message, opts} ->
-      Enum.reduce(opts, message, fn {key, value}, acc ->
-        String.replace(acc, "%{#{key}}", to_string(value))
-      end)
+  defp transform_errors(changeset) do
+    changeset
+    |> Ecto.Changeset.traverse_errors(&format_error/1)
+    |> Enum.map(fn {key, value} ->
+      %{key: key, msg: value}
+    end)
+  end
+
+  @spec format_error(Ecto.Changeset.error()) :: String.t()
+  defp format_error({msg, opts}) do
+    Enum.reduce(opts, msg, fn {key, value}, acc ->
+      String.replace(acc, "%{#{key}}", to_string(value))
     end)
   end
 end

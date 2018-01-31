@@ -27,7 +27,7 @@ defmodule CapaPlanning.Accounts.UserTypes do
 
   object :user_result do
     field(:user, :user)
-    field(:error, :error)
+    field(:errors, list_of(:error))
   end
 
   object :error do
