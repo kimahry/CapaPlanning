@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { ManagerUserComponent } from './manager-user.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('ManagerUserComponent', () => {
   let component: ManagerUserComponent;
@@ -11,9 +12,10 @@ describe('ManagerUserComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ManagerUserComponent ]
+      imports: [RouterTestingModule],
+      declarations: [ManagerUserComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

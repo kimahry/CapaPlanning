@@ -6,6 +6,8 @@ import { DebugElement } from '@angular/core';
 
 import { ListUserComponent } from './list-user.component';
 import { UserService } from '../user.service';
+import { RouterTestingModule } from '@angular/router/testing';
+import { GraphqlModuleModule } from '../../graphql-module/graphql-module.module';
 
 describe('ListUserComponent', () => {
   let component: ListUserComponent;
@@ -13,7 +15,7 @@ describe('ListUserComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule, SharedModule],
+      imports: [BrowserAnimationsModule, SharedModule, RouterTestingModule, GraphqlModuleModule],
       declarations: [ListUserComponent],
       providers: [UserService]
     })

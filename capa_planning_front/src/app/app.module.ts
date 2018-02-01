@@ -1,10 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { ApolloModule } from 'apollo-angular';
-import { HttpClientModule } from '@angular/common/http';
-import { HttpLinkModule } from 'apollo-angular-link-http';
+
 // App Modules
+import { GraphqlModuleModule } from '../graphql-module/graphql-module.module';
 import { SharedModule } from '../shared/shared.module';
 import { UserModule } from '../user/user.module';
 // Components
@@ -24,9 +23,7 @@ import { ProjectModule } from '../project/project.module';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    ApolloModule,
-    HttpClientModule,
-    HttpLinkModule,
+    GraphqlModuleModule,
     SharedModule,
     UserModule,
     ProjectModule,

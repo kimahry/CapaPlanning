@@ -5,6 +5,8 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { SharedModule } from '../../shared/shared.module';
 import { CreateUserComponent } from './create-user.component';
+import { RouterTestingModule } from '@angular/router/testing';
+
 
 describe('CreateUserComponent', () => {
   let component: CreateUserComponent;
@@ -12,7 +14,7 @@ describe('CreateUserComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule, SharedModule],
+      imports: [BrowserAnimationsModule, SharedModule, RouterTestingModule],
       declarations: [CreateUserComponent]
     })
       .compileComponents();

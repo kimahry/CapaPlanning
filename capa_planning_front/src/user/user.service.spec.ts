@@ -2,16 +2,21 @@ import { User } from './model/user';
 
 import { TestBed, async, inject } from '@angular/core/testing';
 import { UserService } from './user.service';
+import { Apollo } from 'apollo-angular/Apollo';
+import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http';
+import { ApolloModule } from 'apollo-angular';
+import { HttpClientModule } from '@angular/common/http';
+import 'rxjs/add/operator/map';
+import { HttpClient } from '@angular/common/http/src/client';
+import { GraphqlModuleModule } from '../graphql-module/graphql-module.module';
 
 describe('Service: User', () => {
 
-  let userService: UserService;
-
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [UserService]
+      imports: [GraphqlModuleModule],
+      providers: [UserService, Apollo]
     });
-    userService = new UserService();
 
     const usersExpected: User[] = [
       { firstName: 'Laurent', lastName: 'Meunier', email: 'lolo@test.com', password: '' },
@@ -25,7 +30,7 @@ describe('Service: User', () => {
     expect(service).toBeTruthy();
     let users: User[] = [];
     service.getUsers().subscribe(res => users = res);
-    // expect(users).toBe(this.usersExpected);
+
   }));
 
 });
