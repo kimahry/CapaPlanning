@@ -1,0 +1,15 @@
+sudo: required
+
+before_install: cd capa_planning_back
+language: elixir
+elixir: '1.6.0'
+otp_release: '20.2'
+
+services:
+  - docker
+
+script:
+- docker run -d --name=roach1 -p 26257:26257 cockroachdb/cockroach:v1.1.3 start --insecure
+- mix do deps.get, compile
+- mix test
+- docker stop roach1 
