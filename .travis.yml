@@ -10,6 +10,5 @@ services:
 
 script:
 - docker run -d --name=roach1 -p 26257:26257 cockroachdb/cockroach:v1.1.3 start --insecure
-- mix do deps.get, compile
 - mix test
 - docker stop roach1 
