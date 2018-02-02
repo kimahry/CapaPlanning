@@ -15,5 +15,6 @@ config :capa_planning, CapaPlanning.Repo,
   username: "root",
   password: "",
   database: "capa_planning_test",
-  hostname: "localhost",
-  pool: Ecto.Adapters.SQL.Sandbox
+  hostname: "database",
+  port: 26257,
+  pool: EctoReplaySandbox
