@@ -1,7 +1,7 @@
 version: "3"
 services:
   bo:
-    image: laurent44/phoenix:1.6.0
+    image: laurent44/capaplanning-bitrise-stack
     container_name: capa-bo
     command: "mix start"
     ports: 

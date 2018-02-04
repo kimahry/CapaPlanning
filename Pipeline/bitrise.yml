@@ -1,0 +1,74 @@
+---
+format_version: '4'
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
+project_type: other
+trigger_map:
+- push_branch: "*"
+  workflow: primary
+- pull_request_source_branch: "*"
+  workflow: primary
+workflows:
+  primary:
+    steps:
+    - activate-ssh-key@3.1.1:
+        run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+    - git-clone: {}
+    - cache-pull: {}
+    - change-workdir:
+        inputs:
+        - is_create_path: 'false'
+        - path: capa_planning_back
+    - script@1.1.5:
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            # fail if any commands fails
+            set -e
+            # debug log
+            set -x
+
+            # write your script here
+            mix deps.get
+            docker run -d --name=roach1 -p 26257:26257 cockroachdb/cockroach:v1.1.3 start --insecure
+
+            #Run the tests
+            mix test
+
+            docker stop roach1
+
+            # or run a script from your repository, like:
+            # bash ./path/to/script.sh
+            # not just bash, e.g.:
+            # ruby ./path/to/script.rb
+    - cache-push@2.0.5:
+        inputs:
+        - cache_paths: |-
+            $BITRISE_CACHE_DIR
+            deps -> mix.lock
+    - change-workdir@1.0.1:
+        inputs:
+        - path: "../capa_planning_front"
+    - npm@0.9.0:
+        inputs:
+        - command: install
+    - cache-push@2.0.5:
+        inputs:
+        - cache_paths: |-
+            $BITRISE_CACHE_DIR
+            node_modules -> package-lock.json
+    - script@1.1.5:
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            # fail if any commands fails
+            set -e
+            # debug log
+            set -x
+
+            # write your script here
+            npm run test
+
+            # or run a script from your repository, like:
+            # bash ./path/to/script.sh
+            # not just bash, e.g.:
+            # ruby ./path/to/script.rb
