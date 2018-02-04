@@ -13,13 +13,6 @@ defmodule CapaPlanningWeb.Router do
     plug(:accepts, ["json"])
   end
 
-  scope "/", CapaPlanningWeb do
-    # Use the default browser stack
-    pipe_through(:browser)
-
-    get("/*path", PageController, :index)
-  end
-
   scope "/graphiql" do
     # Use the default browser stack
     pipe_through(:api)
@@ -41,6 +34,13 @@ defmodule CapaPlanningWeb.Router do
       Absinthe.Plug,
       schema: CapaPlanningWeb.Schema
     )
+  end
+
+  scope "/", CapaPlanningWeb do
+    # Use the default browser stack
+    pipe_through(:browser)
+
+    get("/*path", PageController, :index)
   end
 
   # Other scopes may use custom stacks.

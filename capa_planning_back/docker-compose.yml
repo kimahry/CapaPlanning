@@ -1,7 +1,7 @@
 version: "3"
 services:
   bo:
-    image: laurent44/capaplanning-bitrise-stack
+    image: laurent44/capaplanning-bitrise-stack:1.6.0
     container_name: capa-bo
     command: "mix start"
     ports: 
@@ -12,6 +12,7 @@ services:
       - db
     links: 
       - db:database
+    working_dir: /workspace
   db: 
     image: cockroachdb/cockroach:v1.1.3
     container_name: capa-db
