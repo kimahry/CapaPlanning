@@ -53,6 +53,6 @@ config :capa_planning, CapaPlanning.Repo,
   username: "root",
   password: "",
   database: "capa_planning_dev",
-  hostname: "database",
+  hostname: "localhost",
   port: 26257,
   pool_size: 10

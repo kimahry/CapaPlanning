@@ -8,10 +8,7 @@ services:
       - "4000:4000"
     volumes: 
     - .:/workspace
-    depends_on: 
-      - db
-    links: 
-      - db:database
+    network_mode: host
     working_dir: /workspace
   db: 
     image: cockroachdb/cockroach:v1.1.3
