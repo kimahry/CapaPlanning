@@ -9,6 +9,22 @@ defmodule CapaPlanning.Accounts do
   alias CapaPlanning.Accounts.User
 
   @doc """
+  Count the users 
+  """
+  def count_users(filter) do
+    filter
+    |> Enum.reduce(User, fn {:pattern, pattern}, query ->
+      fitler_users(query, pattern)
+    end)
+    |> count_query()
+    |> Repo.all()
+  end
+
+  defp count_query(query) do
+    from(p in query, select: count(p.id))
+  end
+
+  @doc """
   Returns the list of users.
 
   ## Examples
@@ -21,16 +37,19 @@ defmodule CapaPlanning.Accounts do
     filter
     |> Enum.reduce(User, fn
       {:pattern, pattern}, query ->
-        from(
-          q in query,
-          where: ilike(q.first_name, ^"%#{pattern}%") or ilike(q.last_name, ^"%#{pattern}%") or ilike(q.email, ^"%#{pattern}%")
-        )
+        fitler_users(query, pattern)
 
       {:order, order}, query ->
-        IO.inspect(order)
         query |> order_by({^order.dir, ^order.field})
     end)
     |> Repo.all()
+  end
+
+  def fitler_users(query, pattern) do
+    from(
+      q in query,
+      where: ilike(q.first_name, ^"%#{pattern}%") or ilike(q.last_name, ^"%#{pattern}%") or ilike(q.email, ^"%#{pattern}%")
+    )
   end
 
   @doc """

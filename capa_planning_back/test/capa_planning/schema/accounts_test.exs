@@ -80,7 +80,7 @@ defmodule CapaPlanning.Schema.Account do
   """
 
   test "Mutation deleteUser delete the user" do
-    %{id: id} = Accounts.list_users() |> Enum.at(0)
+    %{id: id} = Accounts.list_users(%{}) |> Enum.at(0)
     conn = post(build_conn(), "/api", query: @query, variables: %{"input" => id})
     assert json_response(conn, 200) == %{"data" => %{"deleteUser" => "OK"}}
   end
