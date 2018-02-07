@@ -17,8 +17,20 @@ defmodule CapaPlanning.Accounts do
       [%User{}, ...]
 
   """
-  def list_users do
-    Repo.all(User)
+  def list_users(filter) do
+    filter
+    |> Enum.reduce(User, fn
+      {:pattern, pattern}, query ->
+        from(
+          q in query,
+          where: ilike(q.first_name, ^"%#{pattern}%") or ilike(q.last_name, ^"%#{pattern}%") or ilike(q.email, ^"%#{pattern}%")
+        )
+
+      {:order, order}, query ->
+        IO.inspect(order)
+        query |> order_by({^order.dir, ^order.field})
+    end)
+    |> Repo.all()
   end
 
   @doc """

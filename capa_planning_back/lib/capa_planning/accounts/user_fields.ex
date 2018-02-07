@@ -6,6 +6,8 @@ defmodule CapaPlanning.Accounts.UserFields do
   object :list_user do
     @desc "Query the users"
     field :list_user, list_of(:user) do
+      arg(:pattern, :string)
+      arg(:order, type: :user_order)
       resolve(&UserResolver.list_user/3)
     end
   end

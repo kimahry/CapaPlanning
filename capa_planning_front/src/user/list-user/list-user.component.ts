@@ -31,11 +31,16 @@ export class ListUserComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.dataSource = new MatTableDataSource<User>([]);
     this.userService.getUsers().subscribe(res => this.dataSource.data = res );
+    this.userService.getUsers('').subscribe(res => this.dataSource.data = res );
   }
 
   deleteUser(user: User) {
     const json: JsonPipe = new JsonPipe;
     this.dataSource.data = this.userService.deleteUser(user);
+  }
+
+  applyFilter(filterValue: string) {
+    this.userService.getUsers(filterValue.trim()).subscribe(res => this.dataSource.data = res );
   }
 
 }
