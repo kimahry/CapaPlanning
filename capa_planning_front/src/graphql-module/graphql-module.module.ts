@@ -23,7 +23,7 @@ export class GraphqlModuleModule {
 
   constructor(private apollo: Apollo, private httpLink: HttpLink) {
     apollo.create({
-      link: httpLink.create({ uri: 'http://localhost:4000/api' }),
+      link: httpLink.create({ uri: 'http://docker:4000/api' }),
       cache: new InMemoryCache()
     });
   }
