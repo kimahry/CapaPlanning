@@ -7,8 +7,8 @@ import gql from 'graphql-tag';
 
 // We use the gql tag to parse our query string into a query document
 const CurrentUserForProfile = gql`
-  query {
-    listUser {
+  query($pattern: String, $order: UserOrder) {
+    listUser (pattern: $pattern, order: $order){
       id
       firstName
       lastName
@@ -35,8 +35,8 @@ export class UserService {
    * @returns {Observable<User[]>}
    * @memberof UserService
    */
-  getUsers(): Observable<User[]> {
-    return this.apollo.watchQuery<any>({ query: CurrentUserForProfile })
+  getUsers(pattern: String): Observable<User[]> {
+    return this.apollo.watchQuery<any>({ query: CurrentUserForProfile, variables: { pattern: pattern } })
       .valueChanges
       .map(({ data }) => data.listUser);
   }

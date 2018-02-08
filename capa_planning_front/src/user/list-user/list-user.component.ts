@@ -1,7 +1,7 @@
 import { User } from '../model/user';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { UserService } from '../user.service';
-import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 import { JsonPipe } from '@angular/common';
 import { QueryRef } from 'apollo-angular';
 import { ApolloQueryResult } from 'apollo-client';
@@ -19,6 +19,7 @@ export class ListUserComponent implements OnInit, AfterViewInit {
   constructor(private userService: UserService) { }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   /**
    * Set the paginator after the view init since this component will
@@ -26,12 +27,14 @@ export class ListUserComponent implements OnInit, AfterViewInit {
    */
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   ngOnInit() {
     this.dataSource = new MatTableDataSource<User>([]);
-    this.userService.getUsers().subscribe(res => this.dataSource.data = res );
     this.userService.getUsers('').subscribe(res => this.dataSource.data = res );
+
+    // this.sort.sortChange.subscribe(val => console.log(val));
   }
 
   deleteUser(user: User) {

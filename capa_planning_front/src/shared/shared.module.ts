@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatInputModule, MatFormFieldModule, MatSelectModule, MatOptionModule, MatToolbarModule,
-  MatButtonModule, MatIconModule, MatSidenavModule, MatListModule, MatCheckboxModule, MatTableModule, MatPaginatorModule
+  MatButtonModule, MatIconModule, MatSidenavModule, MatListModule, MatCheckboxModule, MatTableModule,
+  MatPaginatorModule, MatSortModule
 } from '@angular/material';
 import { CdkTableModule } from '@angular/cdk/table';
 import { ToolbarComponent } from './toolbar/toolbar.component';
@@ -26,7 +27,8 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
     MatListModule,
     MatCheckboxModule,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatSortModule
   ],
   exports: [
     CommonModule,
@@ -46,7 +48,8 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
     MatListModule,
     MatCheckboxModule,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatSortModule
   ],
   declarations: [ToolbarComponent]
 })
