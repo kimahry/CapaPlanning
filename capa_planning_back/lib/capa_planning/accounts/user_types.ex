@@ -33,30 +33,4 @@ defmodule CapaPlanning.Accounts.UserTypes do
     field(:errors, list_of(:error))
   end
 
-  @desc "Standard object to display mutation error"
-  object :error do
-    @desc "The key in error"
-    field(:key, :string)
-    @desc "The error message"
-    field(:msg, :string)
-  end
-
-  enum :order_dir do
-    value(:asc)
-    value(:desc)
-  end
-
-  enum :order_fields do
-    value(:first_name)
-    value(:last_name)
-    value(:email)
-  end
-
-  @desc "Order object to order User"
-  input_object :user_order do
-    @desc "The field from the user to order by"
-    field(:field, :order_fields, default_value: :first_name)
-    @desc "The direction of the sort"
-    field(:dir, :order_dir, default_value: :asc)
-  end
 end

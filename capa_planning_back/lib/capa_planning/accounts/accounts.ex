@@ -39,10 +39,14 @@ defmodule CapaPlanning.Accounts do
       {:pattern, pattern}, query ->
         fitler_users(query, pattern)
 
-      {:order, order}, query ->
-        query |> order_by({^order.dir, ^order.field})
+      {:paginator, paginator}, query ->
+        query |> order_by({^paginator.sort_dir, ^String.to_atom(paginator.sort_field)}) |> paginator(paginator)
     end)
     |> Repo.all()
+  end
+
+  def paginator(query, paginator) do
+    from(p in query, limit: ^paginator.limit, offset: ^paginator.offset)
   end
 
   def fitler_users(query, pattern) do

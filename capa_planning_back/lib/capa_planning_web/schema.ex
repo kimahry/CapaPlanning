@@ -12,6 +12,8 @@ defmodule CapaPlanningWeb.Schema do
   import_types(CapaPlanning.Accounts.UserTypes)
   import_types(CapaPlanning.Accounts.UserFields)
 
+  import_types(CapaPlanning.Schema.GenericTypes)
+
   @desc "Queries"
   query do
     import_fields(:list_user)
