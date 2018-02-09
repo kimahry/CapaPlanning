@@ -3,17 +3,22 @@ import { User } from './model/user';
 import { Observable } from 'rxjs/Observable';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
+import { MatPaginator, MatSort } from '@angular/material';
+import { AppPaginator } from '../shared/table/app-paginator';
+import { AppSort } from '../shared/table/app-sort';
+
 
 
 // We use the gql tag to parse our query string into a query document
 const CurrentUserForProfile = gql`
-  query($pattern: String, $order: UserOrder) {
-    listUser (pattern: $pattern, order: $order){
+  query ($paginator: Paginator, $sort: Sort, $pattern: String) {
+    listUser(paginator: $paginator, pattern: $pattern, sort: $sort) {
       id
-      firstName
       lastName
+      firstName
       email
     }
+    countUser(pattern: $pattern)
   }
 `;
 
@@ -32,13 +37,19 @@ export class UserService {
   /**
    * Return all the users
    *
-   * @returns {Observable<User[]>}
+   * @param {AppPaginator} paginator
+   * @param {AppSort} sort
+   * @param {String} pattern
+   * @returns {Observable<any>}
    * @memberof UserService
    */
-  getUsers(pattern: String): Observable<User[]> {
-    return this.apollo.watchQuery<any>({ query: CurrentUserForProfile, variables: { pattern: pattern } })
-      .valueChanges
-      .map(({ data }) => data.listUser);
+  getUsers(paginator: AppPaginator, sort: AppSort, pattern: String): Observable<any> {
+    return this.apollo.watchQuery<any>({
+      query: CurrentUserForProfile,
+      variables: { paginator: paginator, sort: sort, pattern: pattern }
+    }).valueChanges
+      .map(({ data }) => data)
+      .do(res => console.log(res));
   }
 
   deleteUser(user: User) {

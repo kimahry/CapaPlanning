@@ -2,9 +2,15 @@ import { User } from '../model/user';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { UserService } from '../user.service';
 import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
-import { JsonPipe } from '@angular/common';
+import { UpperCasePipe } from '@angular/common';
 import { QueryRef } from 'apollo-angular';
 import { ApolloQueryResult } from 'apollo-client';
+import { merge } from 'rxjs/observable/merge';
+import { startWith } from 'rxjs/operators/startWith';
+import { switchMap } from 'rxjs/operators/switchMap';
+import { AppPaginator } from '../../shared/table/app-paginator';
+import { AppSort } from '../../shared/table/app-sort';
+
 
 @Component({
   selector: 'app-list-user',
@@ -15,7 +21,9 @@ export class ListUserComponent implements OnInit, AfterViewInit {
 
   displayedColumns = ['firstName', 'lastName', 'email', 'actions'];
   dataSource: MatTableDataSource<User>;
-
+  isLoadingResults = true;
+  resultsLength = 0;
+  filterInput = '';
   constructor(private userService: UserService) { }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -32,18 +40,36 @@ export class ListUserComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.dataSource = new MatTableDataSource<User>([]);
-    this.userService.getUsers('').subscribe(res => this.dataSource.data = res );
+    this.paginator.pageIndex = 0;
+    this.paginator.pageSize = 10;
+    this.sort.active = 'firstName';
+    this.sort.direction = 'asc';
 
-    // this.sort.sortChange.subscribe(val => console.log(val));
+    // If the user changes the sort order, reset back to the first page.
+    this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+
+    merge(this.sort.sortChange, this.paginator.page).pipe(
+      startWith({}),
+      switchMap(() => {
+        const upper = new UpperCasePipe;
+        const paginator = new AppPaginator(this.paginator.pageIndex, this.paginator.pageSize);
+        const sort = new AppSort(this.sort.active, upper.transform(this.sort.direction));
+        this.isLoadingResults = false;
+        return this.userService.getUsers(paginator, sort, this.filterInput);
+      })
+    ).subscribe(res => {
+      this.isLoadingResults = true;
+      this.dataSource.data = res.listUser;
+      this.resultsLength = res.countUser;
+    });
   }
 
   deleteUser(user: User) {
-    const json: JsonPipe = new JsonPipe;
     this.dataSource.data = this.userService.deleteUser(user);
   }
 
-  applyFilter(filterValue: string) {
-    this.userService.getUsers(filterValue.trim()).subscribe(res => this.dataSource.data = res );
+  applyFilter(value) {
+
   }
 
 }

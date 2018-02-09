@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatInputModule, MatFormFieldModule, MatSelectModule, MatOptionModule, MatToolbarModule,
   MatButtonModule, MatIconModule, MatSidenavModule, MatListModule, MatCheckboxModule, MatTableModule,
-  MatPaginatorModule, MatSortModule
+  MatPaginatorModule, MatSortModule, MatProgressBarModule, MatProgressSpinnerModule,
 } from '@angular/material';
 import { CdkTableModule } from '@angular/cdk/table';
 import { ToolbarComponent } from './toolbar/toolbar.component';
@@ -28,7 +28,9 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
     MatCheckboxModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
   ],
   exports: [
     CommonModule,
@@ -49,7 +51,9 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
     MatCheckboxModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
   ],
   declarations: [ToolbarComponent]
 })
