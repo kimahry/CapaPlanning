@@ -3,14 +3,20 @@ defmodule CapaPlanning.Schema.GenericTypes do
 
   @desc "Paginator object"
   input_object :paginator do
-    @desc "The row data offset"
-    field(:offset, :integer, default_value: 0)
-    @desc "The number of row to fetch"
-    field(:limit, :integer, default_value: 50)
+    @desc "The current page index"
+    field(:page_index, :integer, default_value: 0)
+    @desc "The current page size"
+    field(:page_size, :integer, default_value: 50)
+    @desc "The current total number of items being paged"
+    field(:length, :integer)
+  end
+
+  @desc "Sort object"
+  input_object :sort do  
     @desc "The field wihch is sorted"
-    field(:sort_field, non_null(:string))
+    field(:active, non_null(:string))
     @desc "The direction of the sort"
-    field(:sort_dir, :order_dir, default_value: :asc)
+    field(:direction, :order_dir, default_value: :asc)
   end
 
   @desc "Standard object to display mutation error"

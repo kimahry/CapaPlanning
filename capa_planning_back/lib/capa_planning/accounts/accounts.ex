@@ -40,13 +40,26 @@ defmodule CapaPlanning.Accounts do
         fitler_users(query, pattern)
 
       {:paginator, paginator}, query ->
-        query |> order_by({^paginator.sort_dir, ^String.to_atom(paginator.sort_field)}) |> paginator(paginator)
+        query |> paginator(paginator)
+
+      {:sort, sort}, query ->
+        query |> order_by({^sort.direction, ^convert_to_atom_snake_case(sort.active)})
     end)
     |> Repo.all()
   end
 
+  def convert_to_atom_snake_case(value) do
+    value
+    |> Macro.underscore()
+    |> String.to_atom()
+  end
+
   def paginator(query, paginator) do
-    from(p in query, limit: ^paginator.limit, offset: ^paginator.offset)
+    from(p in query, limit: ^paginator.page_size, offset: ^calcul_offset(paginator))
+  end
+
+  defp calcul_offset(paginator) do
+    paginator.page_index * paginator.page_size
   end
 
   def fitler_users(query, pattern) do

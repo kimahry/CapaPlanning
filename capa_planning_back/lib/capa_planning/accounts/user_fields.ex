@@ -4,7 +4,7 @@ defmodule CapaPlanning.Accounts.UserFields do
   alias CapaPlanning.Accounts.UserResolver
 
   object :count_user do
-    @desc "Count the number of users"
+    @desc "The current total users being paged"
     field :count_user, :integer do
       @desc "Pattern to filter first name, last name and email"
       arg(:pattern, :string)
@@ -19,6 +19,8 @@ defmodule CapaPlanning.Accounts.UserFields do
       arg(:pattern, :string)
       @desc "The paginator"
       arg(:paginator, type: :paginator)
+      @des "The sort"
+      arg(:sort, type: :sort)
       resolve(&UserResolver.list_user/3)
     end
   end
