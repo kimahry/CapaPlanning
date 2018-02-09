@@ -2,8 +2,12 @@ defmodule CapaPlanning.Accounts.UserResolver do
   alias CapaPlanning.Accounts
   alias CapaPlanning.Accounts.User
 
-  def list_user(_, filter, _) do
-    {:ok, Accounts.list_users(filter)}
+  def count_user(_, args, _) do
+    {:ok, Accounts.count_users(args)}
+  end
+
+  def list_user(_, args, _) do
+    {:ok, Accounts.list_users(args)}
   end
 
   def delete_user(_, args, _) do

@@ -17,6 +17,7 @@ defmodule CapaPlanningWeb.Schema do
   @desc "Queries"
   query do
     import_fields(:list_user)
+    import_fields(:count_user)
   end
 
   @desc "Mutations"
