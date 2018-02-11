@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { User } from './model/user';
-import { Observable } from 'rxjs/Observable';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
 import { MatPaginator, MatSort } from '@angular/material';
+// rxjs
+import { Observable } from 'rxjs/Observable';
+// App
+import { User } from './model/user';
 import { AppPaginator } from '../shared/table/app-paginator';
 import { AppSort } from '../shared/table/app-sort';
-
-
 
 // We use the gql tag to parse our query string into a query document
 const CurrentUserForProfile = gql`
@@ -48,8 +48,7 @@ export class UserService {
       query: CurrentUserForProfile,
       variables: { paginator: paginator, sort: sort, pattern: pattern }
     }).valueChanges
-      .map(({ data }) => data)
-      .do(res => console.log(res));
+      .map(({ data }) => data);
   }
 
   deleteUser(user: User) {

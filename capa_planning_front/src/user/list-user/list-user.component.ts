@@ -1,15 +1,19 @@
-import { User } from '../model/user';
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { UserService } from '../user.service';
+import { Component, OnInit, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
 import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 import { UpperCasePipe } from '@angular/common';
 import { QueryRef } from 'apollo-angular';
 import { ApolloQueryResult } from 'apollo-client';
-import { merge } from 'rxjs/observable/merge';
-import { startWith } from 'rxjs/operators/startWith';
-import { switchMap } from 'rxjs/operators/switchMap';
+// rxjs
+import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { Observable } from 'rxjs/Observable';
+// App
 import { AppPaginator } from '../../shared/table/app-paginator';
 import { AppSort } from '../../shared/table/app-sort';
+import { UserDatasource } from '../user-datasource';
+import { UserService } from '../user.service';
+import { User } from '../model/user';
+
+
 
 
 @Component({
@@ -20,56 +24,54 @@ import { AppSort } from '../../shared/table/app-sort';
 export class ListUserComponent implements OnInit, AfterViewInit {
 
   displayedColumns = ['firstName', 'lastName', 'email', 'actions'];
-  dataSource: MatTableDataSource<User>;
+  dataSource: UserDatasource;
   isLoadingResults = true;
-  resultsLength = 0;
   filterInput = '';
   constructor(private userService: UserService) { }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild('input') input: ElementRef;
 
   /**
    * Set the paginator after the view init since this component will
    * be able to query its view for the initialized paginator.
    */
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+
+    // reset the paginator after sorting
+    this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+
+    // Trigger load users on page change and sorting
+    Observable.merge(this.sort.sortChange, this.paginator.page).subscribe(() => this.loadUsers());
+
+    // server-side search
+    Observable.fromEvent(this.input.nativeElement, 'keyup').pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      tap(() => {
+        this.paginator.pageIndex = 0;
+        this.loadUsers();
+      })
+    ).subscribe();
   }
 
   ngOnInit() {
-    this.dataSource = new MatTableDataSource<User>([]);
-    this.paginator.pageIndex = 0;
-    this.paginator.pageSize = 10;
-    this.sort.active = 'firstName';
-    this.sort.direction = 'asc';
+    this.dataSource = new UserDatasource(this.userService);
+    this.dataSource.loadUsers();
 
-    // If the user changes the sort order, reset back to the first page.
-    this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
-
-    merge(this.sort.sortChange, this.paginator.page).pipe(
-      startWith({}),
-      switchMap(() => {
-        const upper = new UpperCasePipe;
-        const paginator = new AppPaginator(this.paginator.pageIndex, this.paginator.pageSize);
-        const sort = new AppSort(this.sort.active, upper.transform(this.sort.direction));
-        this.isLoadingResults = false;
-        return this.userService.getUsers(paginator, sort, this.filterInput);
-      })
-    ).subscribe(res => {
-      this.isLoadingResults = true;
-      this.dataSource.data = res.listUser;
-      this.resultsLength = res.countUser;
-    });
   }
 
   deleteUser(user: User) {
-    this.dataSource.data = this.userService.deleteUser(user);
+    // this.dataSource.data = this.userService.deleteUser(user);
   }
 
   applyFilter(value) {
 
+  }
+
+  private loadUsers() {
+    this.dataSource.loadUsers(this.paginator.pageIndex, this.paginator.pageSize, this.sort.active, this.sort.direction, this.input.nativeElement.value);
   }
 
 }
