@@ -13,9 +13,6 @@ import { UserDatasource } from '../user-datasource';
 import { UserService } from '../user.service';
 import { User } from '../model/user';
 
-
-
-
 @Component({
   selector: 'app-list-user',
   templateUrl: './list-user.component.html',
@@ -59,15 +56,10 @@ export class ListUserComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.dataSource = new UserDatasource(this.userService);
     this.dataSource.loadUsers();
-
   }
 
   deleteUser(user: User) {
-    // this.dataSource.data = this.userService.deleteUser(user);
-  }
-
-  applyFilter(value) {
-
+    this.userService.deleteUser(user).subscribe(res => console.log(res));
   }
 
   private loadUsers() {

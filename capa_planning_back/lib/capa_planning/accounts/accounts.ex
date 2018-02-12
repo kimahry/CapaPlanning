@@ -9,8 +9,10 @@ defmodule CapaPlanning.Accounts do
   alias CapaPlanning.Accounts.User
 
   @doc """
-  Count the users 
+  Count the number of users for the a search pattern
+
   """
+  @spec count_users(:map) :: :integer
   def count_users(filter) do
     filter
     |> Enum.reduce(User, fn {:pattern, pattern}, query ->
@@ -27,12 +29,10 @@ defmodule CapaPlanning.Accounts do
   @doc """
   Returns the list of users.
 
-  ## Examples
-
-      iex> list_users()
-      [%User{}, ...]
+  The param fitler is a map that can contain the following element: pattern, paginator and sort
 
   """
+  @spec list_users(:map) :: {:ok, User}
   def list_users(filter) do
     filter
     |> Enum.reduce(User, fn
@@ -48,12 +48,16 @@ defmodule CapaPlanning.Accounts do
     |> Repo.all()
   end
 
-  def convert_to_atom_snake_case(value) do
+  defp convert_to_atom_snake_case(value) do
     value
     |> Macro.underscore()
     |> String.to_atom()
   end
 
+  @doc """
+  Added a paginator to the request
+  """
+  @spec paginator(Ecto.Query, %{page_size: integer, offset: integer}) :: Ecto.Query
   def paginator(query, paginator) do
     from(p in query, limit: ^paginator.page_size, offset: ^calcul_offset(paginator))
   end
@@ -62,11 +66,19 @@ defmodule CapaPlanning.Accounts do
     paginator.page_index * paginator.page_size
   end
 
-  def fitler_users(query, pattern) do
+  @doc """
+  Filter the user on their first name, last name and email with the given pattern
+  """
+  @spec fitler_users(Ecto.Query, :string) :: Ecto.Query
+  def fitler_users(query, pattern) when pattern != "" do
     from(
       q in query,
       where: ilike(q.first_name, ^"%#{pattern}%") or ilike(q.last_name, ^"%#{pattern}%") or ilike(q.email, ^"%#{pattern}%")
     )
+  end
+
+  def fitler_users(query, _pattern) do
+    query
   end
 
   @doc """
@@ -83,6 +95,7 @@ defmodule CapaPlanning.Accounts do
       ** (Ecto.NoResultsError)
 
   """
+  @spec get_user!(:integer) :: {:ok, User} | {:error, Ecto.Changeset}
   def get_user!(id), do: Repo.get!(User, id)
 
   @doc """
@@ -97,6 +110,7 @@ defmodule CapaPlanning.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
+  @spec create_user(:map) :: {:ok, User} | {:error, Ecto.Changeset}
   def create_user(attrs \\ %{}) do
     %User{}
     |> User.changeset(attrs)
@@ -115,6 +129,7 @@ defmodule CapaPlanning.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
+  @spec update_user(%User{}, map) :: {:ok, User} | {:error, Ecto.Changeset}
   def update_user(%User{} = user, attrs) do
     user
     |> User.changeset(attrs)
@@ -133,6 +148,7 @@ defmodule CapaPlanning.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
+  @spec delete_user(User) :: {:ok, User} | {:error, Ecto.Changeset}
   def delete_user(%User{} = user) do
     Repo.delete(user)
   end

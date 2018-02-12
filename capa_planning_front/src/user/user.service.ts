@@ -10,7 +10,7 @@ import { AppPaginator } from '../shared/table/app-paginator';
 import { AppSort } from '../shared/table/app-sort';
 
 // We use the gql tag to parse our query string into a query document
-const CurrentUserForProfile = gql`
+const listUserQuery = gql`
   query ($paginator: Paginator, $sort: Sort, $pattern: String) {
     listUser(paginator: $paginator, pattern: $pattern, sort: $sort) {
       id
@@ -20,6 +20,10 @@ const CurrentUserForProfile = gql`
     }
     countUser(pattern: $pattern)
   }
+`;
+
+const deleteUserQuery = gql`
+
 `;
 
 @Injectable()
@@ -45,15 +49,24 @@ export class UserService {
    */
   getUsers(paginator: AppPaginator, sort: AppSort, pattern: String): Observable<any> {
     return this.apollo.watchQuery<any>({
-      query: CurrentUserForProfile,
+      query: listUserQuery,
       variables: { paginator: paginator, sort: sort, pattern: pattern }
-    }).valueChanges
-      .map(({ data }) => data);
+    }).valueChanges.map(({ data }) => data);
   }
 
+  /**
+   * Delete the given user
+   *
+   * @param {User} user
+   * @returns {Observable<any>}
+   * @memberof UserService
+   */
   deleteUser(user: User) {
-    this.users = this.users.filter((value) => value.firstName !== user.firstName);
-    return this.users;
+    return this.apollo.watchQuery<any>({
+      query: deleteUserQuery,
+      variables: {}
+    }).valueChanges.map(({ data }) => data);
+    // this.users = this.users.filter((value) => value.firstName !== user.firstName);
   }
 
 }
