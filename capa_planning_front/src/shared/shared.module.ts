@@ -8,6 +8,7 @@ import {
 } from '@angular/material';
 import { CdkTableModule } from '@angular/cdk/table';
 import { ToolbarComponent } from './toolbar/toolbar.component';
+import '../app/rxjs-operators';
 
 @NgModule({
   imports: [

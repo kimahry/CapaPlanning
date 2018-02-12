@@ -28,9 +28,6 @@ describe('Service: User', () => {
 
   it('should ...', inject([UserService], (service: UserService) => {
     expect(service).toBeTruthy();
-    let users: User[] = [];
-    service.getUsers().subscribe(res => users = res);
-
   }));
 
 });

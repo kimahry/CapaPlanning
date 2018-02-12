@@ -11,7 +11,6 @@ import { AppComponent } from './app.component';
 import { ErrorStateMatcher } from '@angular/material';
 import { MyErrorStateMatcher } from '../shared/validators/myErrorStateMatcher';
 import AppRoutes from './app.routing';
-import './rxjs-operators';
 import { ProjectModule } from '../project/project.module';
 
 // Others
