@@ -55,11 +55,7 @@ export class UserDatasource implements DataSource<User> {
     loadUsers(pageIndex: number = 0, pageSize: number = 10, active: string = 'firstName', direction: string = 'asc', pattern: String = '') {
         this.loadingSubject.next(true);
 
-        const upper = new UpperCasePipe;
-        const paginator = new AppPaginator(pageIndex, pageSize);
-        const sort = new AppSort(active, upper.transform(direction));
-
-        this.userService.getUsers(paginator, sort, pattern).pipe(
+        this.userService.getUsers(this.getPaginator(pageIndex, pageSize), this.getSort(active, direction), pattern).pipe(
             catchError(() => Observable.of([])),
             finalize(() => this.loadingSubject.next(false))
         ).subscribe(res => {
@@ -67,6 +63,21 @@ export class UserDatasource implements DataSource<User> {
             this.resultsLength = res.countUser;
             this.users.next(res.listUser);
         });
+    }
+
+    deleteUsers(user: User, pageIndex: number, pageSize: number, active: string, direction: string, pattern: String) {
+        this.userService.deleteUser(user, this.getPaginator(pageIndex, pageSize), this.getSort(active, direction), pattern).subscribe(res => {
+            // nothing to do
+        });
+    }
+
+    private getPaginator(pageIndex: number, pageSize: number) {
+        return new AppPaginator(pageIndex, pageSize);
+    }
+
+    private getSort(active: string, direction: string) {
+        const upper = new UpperCasePipe;
+        return new AppSort(active, upper.transform(direction));
     }
 
 }

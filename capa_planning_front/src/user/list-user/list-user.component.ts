@@ -59,7 +59,7 @@ export class ListUserComponent implements OnInit, AfterViewInit {
   }
 
   deleteUser(user: User) {
-    this.userService.deleteUser(user).subscribe(res => console.log(res));
+    this.dataSource.deleteUsers(user, this.paginator.pageIndex, this.paginator.pageSize, this.sort.active, this.sort.direction, this.input.nativeElement.value);
   }
 
   private loadUsers() {

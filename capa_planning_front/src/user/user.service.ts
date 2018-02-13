@@ -22,19 +22,14 @@ const listUserQuery = gql`
   }
 `;
 
-const deleteUserQuery = gql`
-
+const deleteUserMutation = gql`
+  mutation ($id: ID!) {
+    deleteUser(id: $id)
+  }
 `;
 
 @Injectable()
 export class UserService {
-
-  users: User[] = [
-    { firstName: 'Laurent', lastName: 'Meunier', email: 'lolo@test.com', password: '' },
-    { firstName: 'Kévin', lastName: 'Monier', email: 'lolo@test.com', password: '' },
-    { firstName: 'Jessica', lastName: 'Alba', email: 'lolo@test.com', password: '' },
-    { firstName: 'Alex', lastName: 'Dupond', email: 'lolo@test.com', password: '' }
-  ];
 
   constructor(private apollo: Apollo) { }
 
@@ -61,12 +56,14 @@ export class UserService {
    * @returns {Observable<any>}
    * @memberof UserService
    */
-  deleteUser(user: User) {
-    return this.apollo.watchQuery<any>({
-      query: deleteUserQuery,
-      variables: {}
-    }).valueChanges.map(({ data }) => data);
-    // this.users = this.users.filter((value) => value.firstName !== user.firstName);
+  deleteUser(user: User, paginator: AppPaginator, sort: AppSort, pattern: String) {
+    return this.apollo.mutate({
+      mutation: deleteUserMutation,
+      variables: { id: user.id },
+      refetchQueries: [{
+        query: listUserQuery,
+        variables: { paginator: paginator, sort: sort, pattern: pattern }
+      }]
+    });
   }
-
 }
