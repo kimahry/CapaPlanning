@@ -8,6 +8,7 @@ import { ListUserComponent } from './list-user.component';
 import { UserService } from '../user.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { GraphqlModuleModule } from '../../graphql-module/graphql-module.module';
+import { MatDialog } from '@angular/material';
 
 describe('ListUserComponent', () => {
   let component: ListUserComponent;
@@ -17,7 +18,7 @@ describe('ListUserComponent', () => {
     TestBed.configureTestingModule({
       imports: [BrowserAnimationsModule, SharedModule, RouterTestingModule, GraphqlModuleModule],
       declarations: [ListUserComponent],
-      providers: [UserService]
+      providers: [UserService, { provide: MatDialog, useValue: {} }]
     })
       .compileComponents();
   }));

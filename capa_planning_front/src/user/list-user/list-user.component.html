@@ -36,7 +36,7 @@
         <ng-container cdkColumnDef="actions">
           <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
           <mat-cell *matCellDef="let user">
-            <mat-icon class="material-icons-red" (click)="deleteUser(user)">delete</mat-icon>
+            <mat-icon class="material-icons-red" (click)="openDialog(user)">delete</mat-icon>
           </mat-cell>
         </ng-container>
 

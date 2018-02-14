@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
-import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
+import { MatPaginator, MatTableDataSource, MatSort, MatDialog } from '@angular/material';
 import { UpperCasePipe } from '@angular/common';
 import { QueryRef } from 'apollo-angular';
 import { ApolloQueryResult } from 'apollo-client';
@@ -12,6 +12,8 @@ import { AppSort } from '../../shared/table/app-sort';
 import { UserDatasource } from '../user-datasource';
 import { UserService } from '../user.service';
 import { User } from '../model/user';
+import { ConfirmDialogComponent } from '../../shared/modals/confirm-dialog/confirm-dialog.component';
+
 
 @Component({
   selector: 'app-list-user',
@@ -24,7 +26,7 @@ export class ListUserComponent implements OnInit, AfterViewInit {
   dataSource: UserDatasource;
   isLoadingResults = true;
   filterInput = '';
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private dialog: MatDialog) { }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -58,12 +60,21 @@ export class ListUserComponent implements OnInit, AfterViewInit {
     this.dataSource.loadUsers();
   }
 
-  deleteUser(user: User) {
-    this.dataSource.deleteUsers(user, this.paginator.pageIndex, this.paginator.pageSize, this.sort.active, this.sort.direction, this.input.nativeElement.value);
-  }
-
   private loadUsers() {
     this.dataSource.loadUsers(this.paginator.pageIndex, this.paginator.pageSize, this.sort.active, this.sort.direction, this.input.nativeElement.value);
+  }
+
+  openDialog(user: User): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '400px',
+      data: { title: 'Confirm box', msg: 'Are you sure you want to delete this user?' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'OK') {
+        this.dataSource.deleteUsers(user, this.paginator.pageIndex, this.paginator.pageSize, this.sort.active, this.sort.direction, this.input.nativeElement.value);
+      }
+    });
   }
 
 }

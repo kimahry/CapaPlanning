@@ -9,7 +9,6 @@ import { ManagerUserComponent } from './manager-user/manager-user.component';
 import { UserRoutes } from './user.routing';
 import { UserService } from './user.service';
 
-
 @NgModule({
   imports: [
     CommonModule,

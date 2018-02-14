@@ -17,13 +17,6 @@ describe('Service: User', () => {
       imports: [GraphqlModuleModule],
       providers: [UserService, Apollo]
     });
-
-    const usersExpected: User[] = [
-      { firstName: 'Laurent', lastName: 'Meunier', email: 'lolo@test.com', password: '' },
-      { firstName: 'Kévin', lastName: 'Monier', email: 'lolo@test.com', password: '' },
-      { firstName: 'Jessica', lastName: 'Alba', email: 'lolo@test.com', password: '' },
-      { firstName: 'Alex', lastName: 'Dupond', email: 'lolo@test.com', password: '' }
-    ];
   });
 
   it('should ...', inject([UserService], (service: UserService) => {
