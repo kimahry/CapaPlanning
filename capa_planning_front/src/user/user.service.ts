@@ -22,6 +22,23 @@ const listUserQuery = gql`
   }
 `;
 
+const createUserMutation = gql`
+  mutation ($user: UserInput!) {
+    createUser(user: $user) {
+      user {
+        id
+        firstName
+        lastName
+        email
+      }
+      errors {
+        key
+        msg
+      }
+    }
+  }
+`;
+
 const deleteUserMutation = gql`
   mutation ($id: ID!) {
     deleteUser(id: $id)
@@ -47,6 +64,20 @@ export class UserService {
       query: listUserQuery,
       variables: { paginator: paginator, sort: sort, pattern: pattern }
     }).valueChanges.map(({ data }) => data);
+  }
+
+  /**
+   * Create the user
+   *
+   * @param {User} user
+   * @returns {Observable<any>}
+   * @memberof UserService
+   */
+  createUser(user: User) {
+    return this.apollo.mutate({
+      mutation: createUserMutation,
+      variables: { user: user }
+    }).map(({ data }) => data);
   }
 
   /**

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 // Models
 import { User } from '../model/user';
 import { matchValidator } from '../../shared/validators/passwordMatch';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'create-user',
@@ -33,7 +34,7 @@ export class CreateUserComponent implements OnInit {
   emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$';
   mobnumPattern = '^((\\+91-?)|0)?[0-9]{10}$';
 
-  constructor(private fb: FormBuilder, private route: Router) {
+  constructor(private fb: FormBuilder, private route: Router, private userService: UserService) {
     this.createForm();
   }
 
@@ -51,9 +52,14 @@ export class CreateUserComponent implements OnInit {
   }
 
   saveUser() {
-    console.log(this.user);
-    this.route.navigate(['/users']);
+    this.userService.createUser(this.user).subscribe(res => {
+      console.log(res.createUser.errors);
+      if (res.createUser.errors === []) {
+        this.route.navigate(['/users']);
+      } else {
+        console.log('errors');
+      }
+    });
   }
-
 
 }
