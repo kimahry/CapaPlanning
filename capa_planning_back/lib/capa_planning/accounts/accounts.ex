@@ -48,6 +48,7 @@ defmodule CapaPlanning.Accounts do
     |> Repo.all()
   end
 
+  @doc false
   defp convert_to_atom_snake_case(value) do
     value
     |> Macro.underscore()
@@ -62,6 +63,7 @@ defmodule CapaPlanning.Accounts do
     from(p in query, limit: ^paginator.page_size, offset: ^calcul_offset(paginator))
   end
 
+  @doc false
   defp calcul_offset(paginator) do
     paginator.page_index * paginator.page_size
   end
@@ -77,6 +79,7 @@ defmodule CapaPlanning.Accounts do
     )
   end
 
+  @doc false
   def fitler_users(query, _pattern) do
     query
   end
