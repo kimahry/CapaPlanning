@@ -20,5 +20,6 @@ defmodule CapaPlanning.Accounts.User do
     |> cast(attrs, [:first_name, :last_name, :email, :password])
     |> validate_required([:first_name, :last_name, :email, :password])
     |> validate_format(:email, ~r/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/)
+    |> validate_format(:password, ~r/^(?=.*[a-z])(?=.*[A-Z])(?=.*[1-9]).{6,}$/)
   end
 end
