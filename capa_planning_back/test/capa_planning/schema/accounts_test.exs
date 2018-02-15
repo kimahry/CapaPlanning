@@ -46,7 +46,7 @@ defmodule CapaPlanning.Schema.Account do
       email: "test@test.fr",
       first_name: "Patrick",
       last_name: "Dupont",
-      password: "password"
+      password: "Test123"
     }
 
     conn = post(build_conn(), "/api", query: @query, variables: %{"input" => new_user})
@@ -68,7 +68,7 @@ defmodule CapaPlanning.Schema.Account do
 
     conn = post(build_conn(), "/api", query: @query, variables: %{"input" => new_user})
     %{"data" => %{"createUser" => res}} = json_response(conn, 200)
-    assert res["errors"] == [%{"key" => "email", "msg" => "can't be blank"}]
+    assert res["errors"] == [%{"key" => "email", "msg" => "can't be blank"}, %{"key" => "password", "msg" => "has invalid format"}]
     assert res["user"] == nil
 
   end
