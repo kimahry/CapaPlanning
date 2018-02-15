@@ -48,6 +48,10 @@ body {
   color: red;
 }
 
+.text-align-right {
+  text-align: right;
+}
+
 
 /**
 Module user, does'nt work inside the module
@@ -56,6 +60,7 @@ Module user, does'nt work inside the module
 .work-day-checkbox label span {
   width: 6em;
 }
+
 
 /**
 
