@@ -6,6 +6,10 @@ defmodule CapaPlanning.Accounts.UserResolver do
     {:ok, Accounts.count_users(args)}
   end
 
+  def get_user_by_id(_, %{:id => id}, _) do
+    {:ok, Accounts.get_user!(id)}
+  end
+
   def list_user(_, args, _) do
     {:ok, Accounts.list_users(args)}
   end

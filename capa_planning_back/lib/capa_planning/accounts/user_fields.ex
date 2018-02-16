@@ -12,6 +12,15 @@ defmodule CapaPlanning.Accounts.UserFields do
     end
   end
 
+  object :get_user do
+    @desc "Query a single user by ID"
+    field :get_user, :user do
+      @desc "The ID of the user"
+      arg(:id, non_null(:id))
+      resolve(&UserResolver.get_user_by_id/3)
+    end
+  end
+
   object :list_user do
     @desc "Query the users"
     field :list_user, list_of(:user) do
