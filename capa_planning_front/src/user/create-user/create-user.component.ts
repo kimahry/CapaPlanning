@@ -14,7 +14,7 @@ import { UserService } from '../user.service';
 export class CreateUserComponent implements OnInit {
 
   public selectedFiles;
-  public user: User = new User('', '', '', '');
+  public user: User = new User();
   public confirmPassword: string;
   public weekDays = [
     { id: 0, label: 'Monday', checked: false },

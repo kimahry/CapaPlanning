@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SharedModule } from '../shared/shared.module';
 import { ErrorStateMatcher } from '@angular/material';
 // Project dependencie
+import { ManagerUserComponent } from './manager-user/manager-user.component';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { ListUserComponent } from './list-user/list-user.component';
-import { ManagerUserComponent } from './manager-user/manager-user.component';
+import { ViewUserComponent } from './view-user/view-user.component';
+import { SharedModule } from '../shared/shared.module';
 import { UserRoutes } from './user.routing';
 import { UserService } from './user.service';
 
@@ -21,8 +22,9 @@ import { UserService } from './user.service';
   declarations: [
     CreateUserComponent,
     ListUserComponent,
-    ManagerUserComponent
-  ],
+    ManagerUserComponent,
+    ViewUserComponent
+],
   providers: [UserService]
 })
 export class UserModule { }

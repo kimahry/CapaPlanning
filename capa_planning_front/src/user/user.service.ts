@@ -9,27 +9,39 @@ import { User } from './model/user';
 import { AppPaginator } from '../shared/table/app-paginator';
 import { AppSort } from '../shared/table/app-sort';
 
-// We use the gql tag to parse our query string into a query document
+const userFragment = gql`
+  fragment user on User {
+    id
+    firstName
+    lastName
+    email
+  }
+`;
+
 const listUserQuery = gql`
   query ($paginator: Paginator, $sort: Sort, $pattern: String) {
     listUser(paginator: $paginator, pattern: $pattern, sort: $sort) {
-      id
-      lastName
-      firstName
-      email
+      ...user
     }
     countUser(pattern: $pattern)
   }
+  ${userFragment}
+`;
+
+const getUserQuery = gql`
+  query ($id: ID!) {
+    getUser(id: $id) {
+      ...user
+    }
+  }
+  ${userFragment}
 `;
 
 const createUserMutation = gql`
   mutation ($user: UserInput!) {
     createUser(user: $user) {
       user {
-        id
-        firstName
-        lastName
-        email
+        ...user
       }
       errors {
         key
@@ -37,6 +49,7 @@ const createUserMutation = gql`
       }
     }
   }
+  ${userFragment}
 `;
 
 const deleteUserMutation = gql`
@@ -63,6 +76,20 @@ export class UserService {
     return this.apollo.watchQuery<any>({
       query: listUserQuery,
       variables: { paginator: paginator, sort: sort, pattern: pattern }
+    }).valueChanges.map(({ data }) => data);
+  }
+
+  /**
+   * Return the user given it's ID
+   *
+   * @param {number} id
+   * @returns {Observable<any>}
+   * @memberof UserService
+   */
+  getUserByID(id: string) {
+    return this.apollo.watchQuery<any>({
+      query: getUserQuery,
+      variables: { id: id }
     }).valueChanges.map(({ data }) => data);
   }
 

@@ -17,10 +17,9 @@
       </div>
 
       <mat-table #table [dataSource]="dataSource" matSort matSortActive="firstName" matSortDirection="asc" matSortDisableClear>
-
         <ng-container cdkColumnDef="firstName">
           <mat-header-cell *matHeaderCellDef mat-sort-header> FirstName </mat-header-cell>
-          <mat-cell *matCellDef="let user"> {{user.firstName}} </mat-cell>
+          <mat-cell *matCellDef="let user"><a [routerLink]="[ '/viewUser', user.id ]"> {{user.firstName}} </a></mat-cell>
         </ng-container>
 
         <ng-container cdkColumnDef="lastName">

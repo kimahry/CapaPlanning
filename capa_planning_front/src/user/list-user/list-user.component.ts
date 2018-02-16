@@ -1,8 +1,6 @@
 import { Component, OnInit, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
-import { MatPaginator, MatTableDataSource, MatSort, MatDialog } from '@angular/material';
+import { MatPaginator, MatSort, MatDialog } from '@angular/material';
 import { UpperCasePipe } from '@angular/common';
-import { QueryRef } from 'apollo-angular';
-import { ApolloQueryResult } from 'apollo-client';
 // rxjs
 import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Observable } from 'rxjs/Observable';
