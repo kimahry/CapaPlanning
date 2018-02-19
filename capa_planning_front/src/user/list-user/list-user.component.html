@@ -1,25 +1,26 @@
 <section id="user-list">
 
-  <div class="row justify-content-lg-center no-marging">
+  <div class="row">
 
-    <div id="user-search" class="col-sm-12 col-md-6">
+    <div id="user-search" class="col-sm-12 col-md-3 offset-md-3">
+      <mat-input-container>
+        <input matInput placeholder="Search user" diameter=5 #input>
+      </mat-input-container>
+    </div>
 
-      <div class="row">
-        <div class="col-sm-12 col-md-3">
-          <mat-input-container>
-            <input matInput placeholder="Search user" diameter=5 #input>
-          </mat-input-container>
-        </div>
-      </div>
+    <div class="spinner-container" *ngIf="dataSource.loading$ | async">
+      <mat-spinner></mat-spinner>
+    </div>
+  </div>
 
-      <div class="spinner-container" *ngIf="dataSource.loading$ | async">
-        <mat-spinner></mat-spinner>
-      </div>
-
+  <div class="row">
+    <div class="col-sm-12 col-md-6 offset-md-3">
       <mat-table #table [dataSource]="dataSource" matSort matSortActive="firstName" matSortDirection="asc" matSortDisableClear>
         <ng-container cdkColumnDef="firstName">
           <mat-header-cell *matHeaderCellDef mat-sort-header> FirstName </mat-header-cell>
-          <mat-cell *matCellDef="let user"><a [routerLink]="[ '/viewUser', user.id ]"> {{user.firstName}} </a></mat-cell>
+          <mat-cell *matCellDef="let user">
+            <a [routerLink]="[ '/viewUser', user.id ]"> {{user.firstName}} </a>
+          </mat-cell>
         </ng-container>
 
         <ng-container cdkColumnDef="lastName">
@@ -42,12 +43,13 @@
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
       </mat-table>
-      <mat-paginator #paginator [length]="dataSource.resultsLength" [pageSize]="10" [pageSizeOptions]="[10, 30, 20]">
-      </mat-paginator>
-    </div>
 
-    <div class="w-100"></div>
-    <div class="col-sm-12 col-md-6 text-align-right">
+      <mat-paginator #paginator [length]="dataSource.resultsLength" [pageSize]="10" [pageSizeOptions]="[10, 30, 20]"></mat-paginator>
+    </div>
+  </div>
+
+  <div class="row actions-buttons">
+    <div class="col-sm-12 col-md-6 offset-md-3">
       <button color="primary" [routerLink]="[ '/createUser' ]" mat-raised-button>Create user</button>
     </div>
   </div>

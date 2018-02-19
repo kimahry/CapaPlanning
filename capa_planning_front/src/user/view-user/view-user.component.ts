@@ -12,6 +12,16 @@ import { UserService } from '../user.service';
 export class ViewUserComponent implements OnInit {
 
   user: User = new User;
+  weekDays = [
+    { id: 0, label: 'Monday', checked: false },
+    { id: 1, label: 'Tuesday', checked: false },
+    { id: 2, label: 'Wednesday', checked: false },
+    { id: 3, label: 'Thursday', checked: false },
+    { id: 4, label: 'Friday', checked: false },
+    { id: 5, label: 'Saturday', checked: false },
+    { id: 6, label: 'Sunday', checked: false }
+  ];
+
   constructor(private route: ActivatedRoute, private userService: UserService) { }
 
   ngOnInit() {

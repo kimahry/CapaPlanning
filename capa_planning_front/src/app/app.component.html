@@ -1,16 +1,26 @@
 <div class="mat-app-background container-fluid">
-  <app-toolbar [sidenav]="sidenav"></app-toolbar>
 
-  <mat-sidenav-container class="sidenav-container">
+  <div class="row">
+    <app-toolbar id="toolbar" [sidenav]="sidenav"></app-toolbar>
+  </div>
+
+  <mat-sidenav-container class="row sidenav-container">
+
     <mat-sidenav #sidenav mode="over">
       <mat-nav-list>
-        <mat-list-item><a (click)="closeSideNav()" [routerLink]="[ '/users' ]">Users</a></mat-list-item>
-        <mat-list-item><a (click)="closeSideNav()" [routerLink]="[ '/projects' ]">Projects</a></mat-list-item>
+        <mat-list-item>
+          <a (click)="closeSideNav()" [routerLink]="[ '/users' ]">Users</a>
+        </mat-list-item>
+        <mat-list-item>
+          <a (click)="closeSideNav()" [routerLink]="[ '/projects' ]">Projects</a>
+        </mat-list-item>
       </mat-nav-list>
     </mat-sidenav>
 
     <mat-sidenav-content>
-      <router-outlet></router-outlet>
+      <div class="col-sm-12 col-md-12">
+        <router-outlet></router-outlet>
+      </div>
     </mat-sidenav-content>
 
   </mat-sidenav-container>

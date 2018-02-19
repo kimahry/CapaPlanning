@@ -1,12 +1,15 @@
 <section id="user-form">
   <form>
-    <div class="row justify-content-lg-center no-marging">
-      <div class="col-sm-12 col-md-6 ">
-        <span class="section-title">
-          <mat-icon>account_box</mat-icon>Account information</span>
-      </div>
-      <div class="w-100"></div>
-      <div class=" col-sm-12 col-md-6">
+    <div class="row">
+      <div class="col-sm-12 col-md-6 offset-md-3">
+
+        <div class="row">
+          <div class="col-sm-12 col-md-6">
+            <span class="section-title">
+              <mat-icon>account_box</mat-icon>Account information</span>
+          </div>
+        </div>
+
         <div class="row">
           <div class="col-sm-12 col-md-6">
             <mat-form-field [formGroup]="userFormGroup">
@@ -27,22 +30,22 @@
             </mat-form-field>
           </div>
         </div>
-      </div>
-      <div class="w-100"></div>
-      <div class="col-sm-12 col-md-6">
-        <mat-form-field [formGroup]="userFormGroup">
-          <input matInput name="user.email" type="email" placeholder="Email" [(ngModel)]="user.email" formControlName="emailFormControl" required>
-          <mat-error *ngIf="userFormGroup.get('emailFormControl').hasError('email') && !userFormGroup.get('emailFormControl').hasError('required')">
-            Please enter a valid email address
-          </mat-error>
-          <mat-error *ngIf="userFormGroup.get('emailFormControl').hasError('required')">
-            Email is
-            <strong>required</strong>
-          </mat-error>
-        </mat-form-field>
-      </div>
-      <div class="w-100"></div>
-      <div class="col-sm-12 col-md-6">
+
+        <div class="row">
+          <div class="col-sm-12 col-md-6">
+            <mat-form-field [formGroup]="userFormGroup">
+              <input matInput name="user.email" type="email" placeholder="Email" [(ngModel)]="user.email" formControlName="emailFormControl" required>
+              <mat-error *ngIf="userFormGroup.get('emailFormControl').hasError('email') && !userFormGroup.get('emailFormControl').hasError('required')">
+                Please enter a valid email address
+              </mat-error>
+              <mat-error *ngIf="userFormGroup.get('emailFormControl').hasError('required')">
+                Email is
+                <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
         <div class="row">
           <div class="col-sm-12 col-md-6">
             <mat-form-field [formGroup]="userFormGroup">
@@ -70,23 +73,14 @@
             </mat-form-field>
           </div>
         </div>
-      </div>
-      <div class="w-100"></div>
-      <div class="col-sm-12 col-md-6 text-align-right">
-        <button mat-raised-button color="warn" [routerLink]="['/users']">Cancel</button>
-        <button color="primary" [disabled]="!userFormGroup.valid" (click)="saveUser()" mat-raised-button>Save</button>
-      </div>
 
-      <!-- <div class="col-sm-12 col-md-6 ">
-        <span class="section-title">
-          <mat-icon>schedule</mat-icon>Work schedule</span>
-      </div>
-      <div class="w-100"></div>
-      <div class="col-sm-12 col-md-6">
-        <div *ngFor="let day of weekDays">
-          <mat-checkbox class="work-day-checkbox" name="workday" labelPosition="before" [(ngModel)]="day.checked">{{day.label}}</mat-checkbox>
+        <div class="row actions-buttons">
+          <div class="col-sm-12 col-md-12">
+            <button mat-raised-button color="warn" [routerLink]="['/users']">Cancel</button>
+            <button color="primary" [disabled]="!userFormGroup.valid" (click)="saveUser()" mat-raised-button>Save</button>
+          </div>
         </div>
-      </div> -->
+      </div>
     </div>
   </form>
 </section>
