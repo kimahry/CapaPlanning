@@ -13,7 +13,7 @@ export class ViewUserComponent implements OnInit {
 
   user: User = new User;
   weekDays = [
-    { id: 0, label: 'Monday', checked: false },
+    { id: 0, label: 'Monday', checked: true },
     { id: 1, label: 'Tuesday', checked: false },
     { id: 2, label: 'Wednesday', checked: false },
     { id: 3, label: 'Thursday', checked: false },

@@ -41,7 +41,7 @@ body {
 }
 
 .section-title .mat-icon {
-  padding-right: 10px;
+  padding-right: 1.3em;
 }
 
 .material-icons-red {
@@ -53,15 +53,6 @@ body {
   text-align: right;
 }
 
-/**
-Module user, does'nt work inside the module
-*/
-
-.work-day-checkbox label span {
-  width: 6em;
+.work-day-checkbox label {
+  padding-top: 0.25em;
 }
-
-
-/**
-
-*/
