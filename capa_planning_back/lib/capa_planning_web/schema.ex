@@ -11,6 +11,8 @@ defmodule CapaPlanningWeb.Schema do
 
   import_types(CapaPlanning.Accounts.UserTypes)
   import_types(CapaPlanning.Accounts.UserFields)
+  import_types(CapaPlanning.Referentials.ReferencialTypes)
+  import_types(CapaPlanning.Referentials.ReferentialFields)
 
   import_types(CapaPlanning.Schema.GenericTypes)
 
@@ -19,6 +21,7 @@ defmodule CapaPlanningWeb.Schema do
     import_fields(:list_user)
     import_fields(:count_user)
     import_fields(:get_user)
+    import_fields(:list_day)
   end
 
   @desc "Mutations"
