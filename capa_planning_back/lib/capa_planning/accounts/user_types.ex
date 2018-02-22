@@ -11,6 +11,8 @@ defmodule CapaPlanning.Accounts.UserTypes do
     field(:last_name, :string)
     @desc "The email of the user"
     field(:email, :string)
+    @desc "The working days of the user"
+    field(:user_working_days, list_of(:day))
   end
 
   @desc "The input user model"

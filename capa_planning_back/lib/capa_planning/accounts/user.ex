@@ -9,7 +9,7 @@ defmodule CapaPlanning.Accounts.User do
     field(:first_name, :string)
     field(:last_name, :string)
     field(:password, :string)
-
+    many_to_many(:user_working_days, CapaPlanning.Referentials.Day, join_through: "user_working_days", on_replace: :delete, on_delete: :delete_all)
     timestamps()
   end
 

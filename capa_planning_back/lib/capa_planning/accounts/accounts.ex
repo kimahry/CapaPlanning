@@ -46,6 +46,7 @@ defmodule CapaPlanning.Accounts do
         query |> order_by({^sort.direction, ^convert_to_atom_snake_case(sort.active)})
     end)
     |> Repo.all()
+    |> Repo.preload(:user_working_days)
   end
 
   @doc false
@@ -109,14 +110,18 @@ defmodule CapaPlanning.Accounts do
       iex> create_user(%{field: value})
       {:ok, %User{}}
 
+      iex> create_user(%{field: value}, [%Day{}])
+      {:ok, %User{}}
+
       iex> create_user(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec create_user(:map) :: {:ok, User} | {:error, Ecto.Changeset}
-  def create_user(attrs \\ %{}) do
+  @spec create_user(:map, list(Day) | []) :: {:ok, User} | {:error, Ecto.Changeset}
+  def create_user(attrs \\ %{}, working_days \\ []) do
     %User{}
     |> User.changeset(attrs)
+    |> Ecto.Changeset.put_assoc(:user_working_days, working_days)
     |> Repo.insert()
   end
 
