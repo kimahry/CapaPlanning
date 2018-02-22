@@ -3,8 +3,7 @@ defmodule CapaPlanning.Accounts.User do
   import Ecto.Changeset
   alias CapaPlanning.Accounts.User
 
-  @primary_key {:id, :binary_id, autogenerate: true}
-  @foreign_key_type :binary_id
+  @primary_key {:id, :id, autogenerate: true}
   schema "users" do
     field(:email, :string)
     field(:first_name, :string)
