@@ -3,7 +3,7 @@ defmodule CapaPlanning.AccountsTest do
 
   alias CapaPlanning.Accounts
 
-  describe "users" do
+  describe "user" do
     alias CapaPlanning.Accounts.User
 
     @valid_attrs %{email: "test@gmail.fr", first_name: "kévin", last_name: "lopert", password: "Test1234"}

@@ -1,4 +1,5 @@
 ExUnit.start()
 
-Ecto.Adapters.SQL.Sandbox.mode(CapaPlanning.Repo, :manual)
+sandbox = Application.get_env(:capa_planning, CapaPlanning.Repo)[:pool]
+sandbox.mode(CapaPlanning.Repo, :manual)
 

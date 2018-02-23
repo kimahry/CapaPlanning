@@ -4,6 +4,7 @@ defmodule CapaPlanning.Accounts.User do
   alias CapaPlanning.Accounts.User
 
   @primary_key {:id, :id, autogenerate: true}
+  @foreign_key_type :id
   schema "users" do
     field(:email, :string)
     field(:first_name, :string)
