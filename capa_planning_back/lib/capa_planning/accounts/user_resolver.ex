@@ -7,7 +7,7 @@ defmodule CapaPlanning.Accounts.UserResolver do
   end
 
   def get_user_by_id(_, %{:id => id}, _) do
-    {:ok, Accounts.get_user!(id)}
+    {:ok, Accounts.get_user!(String.to_integer(id))}
   end
 
   def list_user(_, args, _) do
@@ -15,7 +15,9 @@ defmodule CapaPlanning.Accounts.UserResolver do
   end
 
   def delete_user(_, args, _) do
-    case Accounts.delete_user(%User{} |> Map.merge(args)) do
+    user = %User{} |> Map.update!(:id, fn _value -> String.to_integer(Map.get(args, :id)) end)
+
+    case Accounts.delete_user(user) do
       {:ok, _} ->
         {:ok, "OK"}
 

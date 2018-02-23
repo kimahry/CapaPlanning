@@ -36,7 +36,7 @@ defmodule CapaPlanning.Accounts.UserFields do
 
   object :delete_user do
     @desc "Delete the given user"
-    field :delete_user, :string do
+    field :delete_user, :id do
       @desc "The id of the user"
       arg(:id, non_null(:id))
       resolve(&UserResolver.delete_user/3)
