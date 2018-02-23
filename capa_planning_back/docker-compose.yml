@@ -8,8 +8,9 @@ services:
       - "4000:4000"
     volumes: 
     - .:/workspace
-    network_mode: host
     working_dir: /workspace
+    networks:
+      - capa-network
     depends_on: 
       - db
   db: 
@@ -21,8 +22,13 @@ services:
     ports: 
       - "26257:26257"
       - "8080:8080"
+    networks:
+      - capa-network
     environment: 
       COCKROACH_INSECURE: "true"
  
 volumes: 
   capa-data:
+
+networks:
+  capa-network:
