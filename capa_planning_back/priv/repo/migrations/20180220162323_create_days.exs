@@ -3,10 +3,9 @@ defmodule CapaPlanning.Repo.Migrations.CreateDays do
 
   def change do
     create table(:days, primary_key: true) do
-      add :name, :string
+      add(:name, :string)
 
       timestamps()
     end
-
   end
 end

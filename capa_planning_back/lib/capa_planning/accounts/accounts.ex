@@ -100,7 +100,7 @@ defmodule CapaPlanning.Accounts do
 
   """
   @spec get_user!(:integer) :: {:ok, User} | {:error, Ecto.Changeset}
-  def get_user!(id), do: Repo.get!(User, id)
+  def get_user!(id), do: Repo.get!(User, id) |> Repo.preload(:user_working_days)
 
   @doc """
   Creates a user.
