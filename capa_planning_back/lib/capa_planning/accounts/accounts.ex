@@ -6,7 +6,7 @@ defmodule CapaPlanning.Accounts do
   import Ecto.Query, warn: false
   alias CapaPlanning.Repo
 
-  alias CapaPlanning.Accounts.User
+  alias CapaPlanning.Accounts.{User, UserWorkingDays}
 
   @doc """
   Count the number of users for the a search pattern
@@ -100,7 +100,28 @@ defmodule CapaPlanning.Accounts do
 
   """
   @spec get_user!(:integer) :: {:ok, User} | {:error, Ecto.Changeset}
-  def get_user!(id), do: Repo.get!(User, id) |> Repo.preload(:user_working_days)
+  def get_user!(id) do
+    # Repo.one!(
+    #   from(
+    #     user in User,
+    #     where: user.id == ^id,
+    #     left_join: user_working_days in assoc(user, :user_working_days),
+    #     left_join: day in assoc(user_working_days, :day),
+    #     preload: [user_working_days: {user_working_days, day: day}]
+    #   )
+    # ) 
+
+    User
+    |> where([u], u.id == ^id)
+    |> join(:left, [u], w in assoc(u, :user_working_days))
+    |> join(:left, [u, w], d in assoc(w, :day))
+    |> preload([u, w, d], user_working_days: {w, day: d})
+    |> Repo.one!()
+
+    # Repo.get!(User, id) 
+    # |> Repo.
+    # |> Repo.preload([user_working_days: :day])
+  end
 
   @doc """
   Creates a user.
@@ -117,7 +138,6 @@ defmodule CapaPlanning.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec create_user(:map, list(Day) | []) :: {:ok, User} | {:error, Ecto.Changeset}
   @spec create_user(:map, list(UserWorkingDays) | []) :: {:ok, User} | {:error, Ecto.Changeset}
   def create_user(attrs \\ %{}, working_days \\ []) do
     %User{}
@@ -138,7 +158,6 @@ defmodule CapaPlanning.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec update_user(%User{}, map) :: {:ok, User} | {:error, Ecto.Changeset}
   @spec update_user(User, map) :: {:ok, User} | {:error, Ecto.Changeset}
   def update_user(%User{} = user, attrs) do
     user
