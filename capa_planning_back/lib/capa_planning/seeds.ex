@@ -1,6 +1,7 @@
 defmodule CapaPlanning.Seeds do
   def run() do
     alias CapaPlanning.Accounts
+    alias CapaPlanning.Accounts.{UserWorkingDays}
     alias CapaPlanning.Referentials
 
     Referentials.create_day(%{:id => 1, :name => "Monday"})
@@ -11,8 +12,6 @@ defmodule CapaPlanning.Seeds do
     Referentials.create_day(%{:id => 6, :name => "Saturday"})
     Referentials.create_day(%{:id => 7, :name => "Sunday"})
 
-    days = Referentials.list_days()
-
     Accounts.create_user(
       %{
         :first_name => "Laurent",
@@ -20,9 +19,18 @@ defmodule CapaPlanning.Seeds do
         :email => "laurentm@magelo.com",
         :password => "Test123"
       },
-      Enum.drop(days, -2)
+      [
+        %UserWorkingDays{:day_id => 1, :worked => true},
+        %UserWorkingDays{:day_id => 2, :worked => true},
+        %UserWorkingDays{:day_id => 3, :worked => true},
+        %UserWorkingDays{:day_id => 4, :worked => true},
+        %UserWorkingDays{:day_id => 5, :worked => true},
+        %UserWorkingDays{:day_id => 6, :worked => false},
+        %UserWorkingDays{:day_id => 7, :worked => false}
+      ]
     )
 
+    # post = Ecto.build_assoc(user, :posts, %{header: "Clickbait header", body: "No real content"}) A tester
     Accounts.create_user(
       %{
         :first_name => "Kévin",
@@ -30,7 +38,15 @@ defmodule CapaPlanning.Seeds do
         :email => "kevin@gmail.com",
         :password => "Test123"
       },
-      Enum.drop(days, -3)
+      [
+        %UserWorkingDays{:day_id => 1, :worked => true},
+        %UserWorkingDays{:day_id => 2, :worked => true},
+        %UserWorkingDays{:day_id => 3, :worked => true},
+        %UserWorkingDays{:day_id => 4, :worked => true},
+        %UserWorkingDays{:day_id => 5, :worked => false},
+        %UserWorkingDays{:day_id => 6, :worked => false},
+        %UserWorkingDays{:day_id => 7, :worked => false}
+      ]
     )
 
     Accounts.create_user(
@@ -40,7 +56,15 @@ defmodule CapaPlanning.Seeds do
         :email => "perrine.dionise@gmail.com",
         :password => "Test123"
       },
-      Enum.drop(days, 3)
+      [
+        %UserWorkingDays{:day_id => 1, :worked => false},
+        %UserWorkingDays{:day_id => 2, :worked => true},
+        %UserWorkingDays{:day_id => 3, :worked => true},
+        %UserWorkingDays{:day_id => 4, :worked => true},
+        %UserWorkingDays{:day_id => 5, :worked => true},
+        %UserWorkingDays{:day_id => 6, :worked => false},
+        %UserWorkingDays{:day_id => 7, :worked => false}
+      ]
     )
 
     Accounts.create_user(
@@ -50,7 +74,15 @@ defmodule CapaPlanning.Seeds do
         :email => "nthebaud@gmail.com",
         :password => "Test123"
       },
-      Enum.drop(days, 2)
+      [
+        %UserWorkingDays{:day_id => 1, :worked => true},
+        %UserWorkingDays{:day_id => 2, :worked => true},
+        %UserWorkingDays{:day_id => 3, :worked => false},
+        %UserWorkingDays{:day_id => 4, :worked => true},
+        %UserWorkingDays{:day_id => 5, :worked => true},
+        %UserWorkingDays{:day_id => 6, :worked => false},
+        %UserWorkingDays{:day_id => 7, :worked => false}
+      ]
     )
 
     :ok

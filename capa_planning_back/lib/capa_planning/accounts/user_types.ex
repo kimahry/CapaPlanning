@@ -12,7 +12,7 @@ defmodule CapaPlanning.Accounts.UserTypes do
     @desc "The email of the user"
     field(:email, :string)
     @desc "The working days of the user"
-    field(:user_working_days, list_of(:day))
+    field(:user_working_days, list_of(:user_working_day))
   end
 
   @desc "The input user model"
@@ -33,6 +33,16 @@ defmodule CapaPlanning.Accounts.UserTypes do
     field(:user, :user)
     @desc "The list of errors"
     field(:errors, list_of(:error))
+  end
+
+  @desc "The object representing a day"
+  object :user_working_day do
+    @desc "The day's ID"
+    field(:id, :id)
+    @desc "The day's name"
+    field(:day, :day)
+    @desc "If the user work that day"
+    field(:worked, :boolean)
   end
 
 end

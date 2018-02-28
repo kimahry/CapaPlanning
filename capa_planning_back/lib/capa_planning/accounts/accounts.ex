@@ -118,6 +118,7 @@ defmodule CapaPlanning.Accounts do
 
   """
   @spec create_user(:map, list(Day) | []) :: {:ok, User} | {:error, Ecto.Changeset}
+  @spec create_user(:map, list(UserWorkingDays) | []) :: {:ok, User} | {:error, Ecto.Changeset}
   def create_user(attrs \\ %{}, working_days \\ []) do
     %User{}
     |> User.changeset(attrs)
@@ -138,6 +139,7 @@ defmodule CapaPlanning.Accounts do
 
   """
   @spec update_user(%User{}, map) :: {:ok, User} | {:error, Ecto.Changeset}
+  @spec update_user(User, map) :: {:ok, User} | {:error, Ecto.Changeset}
   def update_user(%User{} = user, attrs) do
     user
     |> User.changeset(attrs)
