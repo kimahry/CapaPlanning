@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 // Apps
-import { User } from '../model/user';
+import { User } from '../models/user';
 import { UserService } from '../user.service';
+import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'view-user',
@@ -12,16 +13,6 @@ import { UserService } from '../user.service';
 export class ViewUserComponent implements OnInit {
 
   user: User = new User;
-  weekDays = [
-    { id: 0, label: 'Monday', checked: true },
-    { id: 1, label: 'Tuesday', checked: false },
-    { id: 2, label: 'Wednesday', checked: false },
-    { id: 3, label: 'Thursday', checked: false },
-    { id: 4, label: 'Friday', checked: false },
-    { id: 5, label: 'Saturday', checked: false },
-    { id: 6, label: 'Sunday', checked: false }
-  ];
-
   constructor(private route: ActivatedRoute, private userService: UserService) { }
 
   ngOnInit() {
@@ -30,6 +21,7 @@ export class ViewUserComponent implements OnInit {
         this.userService.getUserByID(params.get('id'))
     ).subscribe(res => {
       this.user = res.getUser;
+      console.log(this.user.userWorkingDays);
     });
   }
 

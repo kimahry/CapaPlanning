@@ -5,7 +5,7 @@ import { MatPaginator, MatSort } from '@angular/material';
 // rxjs
 import { Observable } from 'rxjs/Observable';
 // App
-import { User } from './model/user';
+import { User } from './models/user';
 import { AppPaginator } from '../shared/table/app-paginator';
 import { AppSort } from '../shared/table/app-sort';
 
@@ -32,6 +32,12 @@ const getUserQuery = gql`
   query ($id: ID!) {
     getUser(id: $id) {
       ...user
+      userWorkingDays {
+        worked
+        day {
+          name
+        }
+      }
     }
   }
   ${userFragment}

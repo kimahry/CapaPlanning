@@ -9,7 +9,7 @@ import { AppPaginator } from '../../shared/table/app-paginator';
 import { AppSort } from '../../shared/table/app-sort';
 import { UserDatasource } from '../user-datasource';
 import { UserService } from '../user.service';
-import { User } from '../model/user';
+import { User } from '../models/user';
 import { ConfirmDialogComponent } from '../../shared/modals/confirm-dialog/confirm-dialog.component';
 
 

@@ -8,7 +8,7 @@ import { catchError, finalize } from 'rxjs/operators';
 import { AppPaginator } from '../shared/table/app-paginator';
 import { AppSort } from '../shared/table/app-sort';
 import { UserService } from './user.service';
-import { User } from './model/user';
+import { User } from './models/user';
 
 export class UserDatasource implements DataSource<User> {
 

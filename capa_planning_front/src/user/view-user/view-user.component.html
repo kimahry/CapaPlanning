@@ -36,12 +36,12 @@
         </div>
       </div>
 
-      <div class="row" *ngFor="let day of weekDays">
+      <div class="row" *ngFor="let workingDay of user.userWorkingDays">
         <div class="col-3 col-md-3">
-          {{day.label}}
+          {{workingDay.day.name}} - {{workingDay.worked}}
         </div>
         <div class="col-2 col-md-2">
-          <mat-checkbox [disabled]=true class="work-day-checkbox" name="workday" [ngModel]="day.checked"></mat-checkbox>
+          <mat-checkbox [disabled]=true class="work-day-checkbox" [checked]="workingDay.worked" name="workday" ></mat-checkbox>
         </div>
       </div>
 
