@@ -21,7 +21,6 @@ export class ViewUserComponent implements OnInit {
         this.userService.getUserByID(params.get('id'))
     ).subscribe(res => {
       this.user = res.getUser;
-      console.log(this.user.userWorkingDays);
     });
   }
 
