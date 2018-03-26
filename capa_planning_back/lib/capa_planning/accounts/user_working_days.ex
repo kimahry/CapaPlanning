@@ -12,10 +12,17 @@ defmodule CapaPlanning.Accounts.UserWorkingDays do
     timestamps()
   end
 
-  @doc false
   def changeset(%UserWorkingDays{} = user_working_days, attrs) do
     user_working_days
     |> cast(attrs, [:user_id, :day_id, :worked])
     |> validate_required([:user_id, :day_id, :worked])
+  end
+
+  def createDefautWorkingDays() do
+    Enum.reduce(1..7, [], fn day_id, acc -> insert_day(acc, day_id) end)
+  end
+
+  defp insert_day(acc, day_id) do
+    List.insert_at(acc, -1, Map.new([{:day_id, day_id}, {:worked, if(day_id > 5, do: false, else: true)}]))
   end
 end

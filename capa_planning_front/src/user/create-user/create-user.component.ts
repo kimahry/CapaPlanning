@@ -44,11 +44,10 @@ export class CreateUserComponent implements OnInit {
 
   saveUser() {
     this.userService.createUser(this.user).subscribe(res => {
-      console.log(res.createUser.errors);
-      if (res.createUser.errors === []) {
-        this.route.navigate(['/users']);
-      } else {
+      if (res.createUser.errors) {
         console.log('errors');
+      } else {
+        this.route.navigate(['/users']);
       }
     });
   }

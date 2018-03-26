@@ -109,7 +109,7 @@ defmodule CapaPlanning.Accounts do
     #     left_join: day in assoc(user_working_days, :day),
     #     preload: [user_working_days: {user_working_days, day: day}]
     #   )
-    # ) 
+    # )
 
     User
     |> where([u], u.id == ^id)
@@ -118,7 +118,7 @@ defmodule CapaPlanning.Accounts do
     |> preload([u, w, d], user_working_days: {w, day: d})
     |> Repo.one!()
 
-    # Repo.get!(User, id) 
+    # Repo.get!(User, id)
     # |> Repo.
     # |> Repo.preload([user_working_days: :day])
   end
@@ -131,18 +131,19 @@ defmodule CapaPlanning.Accounts do
       iex> create_user(%{field: value})
       {:ok, %User{}}
 
-      iex> create_user(%{field: value}, [%Day{}])
-      {:ok, %User{}}
-
       iex> create_user(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec create_user(:map, list(UserWorkingDays) | []) :: {:ok, User} | {:error, Ecto.Changeset}
-  def create_user(attrs \\ %{}, working_days \\ []) do
+  @spec create_user(map) :: {:ok, User} | {:error, Ecto.Changeset}
+  def create_user(attrs) do
+    # post = Ecto.build_assoc(user, :posts, %{header: "Clickbait header", body: "No real content"}) A tester
+    # Adding the default userWorkingDays
+    attrs = Map.put(attrs, :user_working_days, UserWorkingDays.createDefautWorkingDays())
+
     %User{}
     |> User.changeset(attrs)
-    |> Ecto.Changeset.put_assoc(:user_working_days, working_days)
+    |> Ecto.Changeset.put_assoc(:user_working_days, attrs.user_working_days)
     |> Repo.insert()
   end
 
